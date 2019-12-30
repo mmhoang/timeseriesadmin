@@ -9,6 +9,7 @@ import InfluxConnectionsIcon from '@material-ui/icons/Link';
 
 import PanelExplorer from '../PanelExplorer/PanelExplorer';
 import PanelHistory from '../PanelHistory';
+import PanelFavorites from '../PanelFavorites';
 import PanelReference from '../PanelReference';
 import PanelConnect from '../PanelConnect';
 import styles from './styles';
@@ -110,6 +111,11 @@ class DrawerRight extends React.Component<Props, State> {
               className={classes.tab}
               icon={<QueryReferenceIcon className={classes.tabIcon} />}
             />
+            <Tab
+              label="Favorites"
+              className={classes.tab}
+              icon={<QueryReferenceIcon className={classes.tabIcon} />}
+            />
           </Tabs>
         </div>
 
@@ -118,6 +124,7 @@ class DrawerRight extends React.Component<Props, State> {
           {activeTab === 1 && <PanelExplorer />}
           {activeTab === 2 && <PanelHistory />}
           {activeTab === 3 && <PanelReference />}
+          {activeTab === 4 && <PanelFavorites />}
         </div>
       </div>
     );

@@ -23,7 +23,7 @@ const form = {
   ...JSON.parse(storage.get('form', '{}')),
 };
 
-export const MIN_DRAWER_WIDTH = 480;
+export const MIN_DRAWER_WIDTH = 590;
 export const MIN_CONTENT_WIDTH = 360;
 
 export default {
