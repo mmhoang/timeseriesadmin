@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import QueryHistoryIcon from '@material-ui/icons/History';
+import QueryFavoriteIcon from '@material-ui/icons/Favorite';
 import QueryReferenceIcon from '@material-ui/icons/Flip';
 import InfluxExplorerIcon from '@material-ui/icons/Explore';
 import InfluxConnectionsIcon from '@material-ui/icons/Link';
@@ -114,7 +115,7 @@ class DrawerRight extends React.Component<Props, State> {
             <Tab
               label="Favorites"
               className={classes.tab}
-              icon={<QueryReferenceIcon className={classes.tabIcon} />}
+              icon={<QueryFavoriteIcon className={classes.tabIcon} />}
             />
           </Tabs>
         </div>
