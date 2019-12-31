@@ -1,9 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, Theme } from '@material-ui/core/styles';
-import QueryHistory from '../QueryHistory';
-
-import { HISTORY_MAX_LENGTH } from '../../../config';
+import QueryFavorites from '../QueryFavorites';
 
 const styles = (theme: Theme): any => ({
   root: {
@@ -21,11 +19,10 @@ type Props = {
 const PanelFavorites = ({ classes }: Props) => (
   <div>
     <Typography variant="body1" className={classes.info}>
-      List of most recent queries executed, with max length of{' '}
-      {HISTORY_MAX_LENGTH} items.
+      List of favorite queries.
     </Typography>
     <div className={classes.root}>
-      <QueryHistory />
+      <QueryFavorites />
     </div>
   </div>
 );

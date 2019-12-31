@@ -8,6 +8,7 @@ import DrawerRight from '../DrawerRight';
 import { useStyles } from './styles';
 import { SettingsContextProvider } from 'app/contexts/SettingsContext';
 import { QueryHistoryContextProvider } from 'app/contexts/QueryHistoryContext';
+import { QueryFavoritesContextProvider } from 'app/contexts/QueryFavoritesContext';
 
 import { MIN_DRAWER_WIDTH } from 'app/apollo/defaults';
 
@@ -18,37 +19,39 @@ export const App: React.FC = () => {
 
   return (
     <QueryHistoryContextProvider>
-      <div
-        style={{ paddingRight: isOpenDrawer ? drawerWidth : null }}
-        className={classes.root}
-      >
-        <TopBar
-          isOpenDrawer={isOpenDrawer}
-          drawerWidth={drawerWidth}
-          toggleDrawer={(): void => setOpenDrawer(!isOpenDrawer)}
-        />
-
-        <main className={classes.content}>
-          <SettingsContextProvider>
-            <MainContent />
-          </SettingsContextProvider>
-        </main>
-
-        <Drawer
-          variant="persistent"
-          anchor="right"
-          open={isOpenDrawer}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          PaperProps={{ style: { width: drawerWidth } }}
+      <QueryFavoritesContextProvider>
+        <div
+          style={{ paddingRight: isOpenDrawer ? drawerWidth : null }}
+          className={classes.root}
         >
-          <DrawerRight
+          <TopBar
+            isOpenDrawer={isOpenDrawer}
             drawerWidth={drawerWidth}
-            updateWidth={(width: number) => setDrawerWidth(width)}
+            toggleDrawer={(): void => setOpenDrawer(!isOpenDrawer)}
           />
-        </Drawer>
-      </div>
+
+          <main className={classes.content}>
+            <SettingsContextProvider>
+              <MainContent />
+            </SettingsContextProvider>
+          </main>
+
+          <Drawer
+            variant="persistent"
+            anchor="right"
+            open={isOpenDrawer}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            PaperProps={{ style: { width: drawerWidth } }}
+          >
+            <DrawerRight
+              drawerWidth={drawerWidth}
+              updateWidth={(width: number) => setDrawerWidth(width)}
+            />
+          </Drawer>
+        </div>
+      </QueryFavoritesContextProvider>
     </QueryHistoryContextProvider>
   );
 };

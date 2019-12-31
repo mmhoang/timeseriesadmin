@@ -4,6 +4,7 @@ import Results from './results/Results';
 import { queryBase } from 'app/apollo/helpers/queryBase';
 import { commonError } from 'app/shared/commonError';
 import { QueryHistoryContext } from 'app/contexts/QueryHistoryContext';
+import { QueryFavoritesContext } from 'app/contexts/QueryFavoritesContext';
 
 const MainContent: React.FC<{}> = () => {
   // const [form, setForm] = useState({
@@ -20,23 +21,21 @@ const MainContent: React.FC<{}> = () => {
   const { appendHistoryEntry } = useContext<QueryHistoryContext>(
     QueryHistoryContext,
   );
+  const { appendFavoritesEntry } = useContext<QueryFavoritesContext>(
+    QueryFavoritesContext,
+  );
 
   const onSubmit = async (values: any): Promise<void> => {
     setLoading(true);
     setError(false);
     // setForm(values);
     try {
-      if (values.addToFavorites) {
-        console.log('CHECKED');
-        //appendHistoryEntry({ query: 'the checkbox is CHECKED' })
-      }
-      else {
-        console.log('UNCHECKED');
-        //appendHistoryEntry({ query: 'the checkbox is UNCHECKED' });
-      }
       const response = await queryBase(values);
       setResults(response);
       appendHistoryEntry({ query: values.q });
+      if (values.addToFavorites) {
+        appendFavoritesEntry({ query: values.q });
+      }
     } catch (error) {
       const stdError = commonError(error);
       setError(stdError);

@@ -10,7 +10,7 @@ import {
 import { ErrorOutline as ErrorIcon } from '@material-ui/icons';
 import { Mutation } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
-import { QueryHistoryContext } from 'app/contexts/QueryHistoryContext';
+import { QueryFavoritesContext } from 'app/contexts/QueryFavoritesContext';
 import { HistoryEntry } from 'types/HistoryEntry';
 
 const styles = (theme: Theme): any => ({
@@ -53,7 +53,7 @@ type Props = {
 };
 // TODO: display Error details somehow, not with a Tooltip because of performance issues when there are 100 Tooltips...
 const QueryFavorites = ({ classes }: Props) => {
-  const { queryHistory } = useContext<QueryHistoryContext>(QueryHistoryContext);
+  const { queryFavorites } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
 
   return (
     <Mutation mutation={SET_FORM_QUERY}>
@@ -61,10 +61,10 @@ const QueryFavorites = ({ classes }: Props) => {
         const handleQueryClick = (query: string) => () => {
           setFormQuery({ variables: { query } });
         };
-        if (!queryHistory || queryHistory.length === 0) {
+        if (!queryFavorites || queryFavorites.length === 0) {
           return (
             <div className={classes.noList}>
-              Query history is empty.
+              Query favorites is empty.
               <br />
               Execute your first query using <a href="#influx-q">Query form</a>
             </div>
@@ -72,7 +72,7 @@ const QueryFavorites = ({ classes }: Props) => {
         }
         return (
           <List dense>
-            {queryHistory.map(
+            {queryFavorites.map(
               (entry: HistoryEntry, index: string | number | undefined) => (
                 <ListItem
                   button
