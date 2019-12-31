@@ -198,6 +198,14 @@ const FormInflux: React.FC<Props> = ({ classes, onSubmit }: Props) => {
                   },
                 }}
               />
+              <Field
+                id="checkbox-fave-query"
+                helperText="Add query to Favorites list"
+                name="addToFavorites"
+                component={RenderField}
+                label="Add to Favorites"
+                type="checkbox"
+              />
               <Button
                 disabled={submitting || fetching}
                 type="submit"

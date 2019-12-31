@@ -26,6 +26,14 @@ const MainContent: React.FC<{}> = () => {
     setError(false);
     // setForm(values);
     try {
+      if (values.addToFavorites) {
+        console.log('CHECKED');
+        //appendHistoryEntry({ query: 'the checkbox is CHECKED' })
+      }
+      else {
+        console.log('UNCHECKED');
+        //appendHistoryEntry({ query: 'the checkbox is UNCHECKED' });
+      }
       const response = await queryBase(values);
       setResults(response);
       appendHistoryEntry({ query: values.q });
