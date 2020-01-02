@@ -10,6 +10,7 @@ type QueryFavoritesContext = {
   queryFavorites: HistoryEntry[];
   setQueryFavorites: (queryFavorites: HistoryEntry[]) => void;
   appendFavoritesEntry: (favoritesEntry: HistoryEntry) => HistoryEntry[];
+  deleteFavoritesEntry: (favoritesEntry: HistoryEntry) => HistoryEntry[];
 };
 
 // according to https://kentcdodds.com/blog/how-to-use-react-context-effectively
@@ -42,9 +43,27 @@ export const QueryFavoritesContextProvider: React.FC<Props> = (props: Props) => 
     return newHistory;
   };
 
+  const deleteFavoritesEntry = (favoritesEntry: HistoryEntry): HistoryEntry[] => {
+    const queryIndex = queryFavorites.findIndex(
+      entry => entry.query === favoritesEntry.query,
+    );
+
+    const updatedQueryFavorites =
+      queryIndex > -1
+        ? [
+            ...queryFavorites.slice(0, queryIndex),
+            ...queryFavorites.slice(queryIndex + 1),
+          ]
+        : queryFavorites.slice();
+
+    setQueryFavorites(updatedQueryFavorites);
+
+    return updatedQueryFavorites;
+  };
+
   return (
     <QueryFavoritesContext.Provider
-      value={{ queryFavorites, setQueryFavorites, appendFavoritesEntry }}
+      value={{ queryFavorites, setQueryFavorites, appendFavoritesEntry, deleteFavoritesEntry }}
     >
       {props.children}
     </QueryFavoritesContext.Provider>

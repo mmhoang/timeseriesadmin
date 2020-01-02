@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import gql from 'graphql-tag';
 import {
+  IconButton,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Theme,
 } from '@material-ui/core';
-import { ErrorOutline as ErrorIcon } from '@material-ui/icons';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Mutation } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import { QueryFavoritesContext } from 'app/contexts/QueryFavoritesContext';
@@ -54,6 +54,10 @@ type Props = {
 // TODO: display Error details somehow, not with a Tooltip because of performance issues when there are 100 Tooltips...
 const QueryFavorites = ({ classes }: Props) => {
   const { queryFavorites } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
+  const { deleteFavoritesEntry } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
+
+const handleDelete = (queryToDelete: any) => () =>
+  deleteFavoritesEntry({ query: queryToDelete });
 
   return (
     <Mutation mutation={SET_FORM_QUERY}>
@@ -81,19 +85,16 @@ const QueryFavorites = ({ classes }: Props) => {
                   key={index}
                   onClick={handleQueryClick(entry.query)}
                 >
-                  {entry.error !== null && (
-                    <ListItemIcon className={classes.listIcon}>
-                      <ErrorIcon
-                        aria-label="Invalid query"
-                        color="error"
-                        className={classes.btnIcon}
-                      />
-                    </ListItemIcon>
-                  )}
                   <ListItemText
                     primary={entry.query}
                     className={classes.listItemText}
                   />
+                  <IconButton
+                    onClick={handleDelete(entry.query)}
+                    aria-label="Delete"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
                 </ListItem>
               ),
             )}
