@@ -8,9 +8,12 @@ type Props = {
 
 type QueryFavoritesContext = {
   queryFavorites: HistoryEntry[];
+  //dialogText: string;
   setQueryFavorites: (queryFavorites: HistoryEntry[]) => void;
+  //setDialogText: (dialogText: string) => void;
   appendFavoritesEntry: (favoritesEntry: HistoryEntry) => HistoryEntry[];
   deleteFavoritesEntry: (favoritesEntry: HistoryEntry) => HistoryEntry[];
+  editFavoritesEntry: (favoritesEntry: HistoryEntry) => HistoryEntry[];
 };
 
 // according to https://kentcdodds.com/blog/how-to-use-react-context-effectively
@@ -19,10 +22,12 @@ export const QueryFavoritesContext = React.createContext<
 >(undefined);
 
 export const QueryFavoritesContextProvider: React.FC<Props> = (props: Props) => {
+
   const [queryFavorites, setQueryFavorites] = useStateAndStorage<HistoryEntry[]>(
     'queryFavorites',
     [],
   );
+  //const [dialogText, setDialogText] = useState("default text");
 
   const appendFavoritesEntry = (favoritesEntry: HistoryEntry): HistoryEntry[] => {
     const queryIndex = queryFavorites.findIndex(
@@ -61,9 +66,14 @@ export const QueryFavoritesContextProvider: React.FC<Props> = (props: Props) => 
     return updatedQueryFavorites;
   };
 
+  const editFavoritesEntry = (favoritesEntry: HistoryEntry): HistoryEntry[] => {
+
+    return favoritesEntry;
+  };
+
   return (
     <QueryFavoritesContext.Provider
-      value={{ queryFavorites, setQueryFavorites, appendFavoritesEntry, deleteFavoritesEntry }}
+      value={{ queryFavorites, setQueryFavorites, appendFavoritesEntry, deleteFavoritesEntry, editFavoritesEntry }}
     >
       {props.children}
     </QueryFavoritesContext.Provider>
