@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   IconButton,
   List,
@@ -65,7 +64,7 @@ type Props = {
 const QueryFavorites = ({ classes }: Props) => {
   const { queryFavorites } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
   const { deleteFavoritesEntry } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
-  //const { editFavoritesEntry } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
+ // const { editFavoritesEntry } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
   //const { setDialogText } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
   //let { dialogText } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
 
@@ -74,19 +73,27 @@ const handleDelete = (queryToDelete: any) => () =>
 
 const [open, setOpen] = React.useState(false);
 
+const [indexToUpdate, setIndexToUpdate] = React.useState(0);
 
 //const [dialogText] = useState("default text");
 const [dialogText, setDialogText] = useState("default text");
 
-const handleEdit = (e: any) => () =>
+
+const handleEdit = (e: any, index: any) => () =>
 //editFavoritesEntry({ query: queryToEdit });
 {
-  setDialogText(e)
+  setDialogText(e);
+  setIndexToUpdate(index);
   setOpen(true);
 
 };
 
 const handleClose = () => {
+    setOpen(false);
+  };
+
+const handleUpdate = (updatedQuery: string) => {
+    queryFavorites[indexToUpdate].query = updatedQuery;
     setOpen(false);
   };
 
@@ -120,14 +127,14 @@ const handleClose = () => {
                   disableGutters
                   className={classes.listItem}
                   key={index}
-                  onClick={handleQueryClick(entry.query)}
                 >
                   <ListItemText
                     primary={entry.query}
                     className={classes.listItemText}
+                    onClick={handleQueryClick(entry.query)}
                   />
                   <IconButton
-                    onClick={handleEdit(entry.query)}
+                    onClick={handleEdit(entry.query, index)}
                     aria-label="Edit"
                   >
                     <EditIcon />
@@ -135,18 +142,18 @@ const handleClose = () => {
                   <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                   <DialogTitle id="form-dialog-title">Edit Query</DialogTitle>
                     <DialogContent>
-                      <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We will send updates
-                        occasionally.
-                      </DialogContentText>
                       <TextField
                         //autoFocus
                         defaultValue={dialogText}
-                        //defaultValue={entry.query}
-                        //margin="dense"
-                        label="Email Address"
-                        type="email"
-                        //fullWidth
+                        margin="dense"
+                        label="Query"
+                        type="text"
+                        multiline
+                        size="medium"
+                        fullWidth
+                        rows="4"
+                        style={{ width: 500, }}
+                        onChange={e => setDialogText(e.target.value)}
                       />
                     </DialogContent>
                     <DialogActions>
@@ -156,14 +163,14 @@ const handleClose = () => {
                         Cancel
                       </Button>
                       <Button
-                        onClick={handleClose}
+                        onClick={() => handleUpdate(dialogText)}
                         variant="contained"
                         color="secondary"
                         className={classes.submit}
                         classes={{
                           root: classes.submit,
                         }}>
-                        Subscribe
+                        Save
                       </Button>
                     </DialogActions>
                   </Dialog>
