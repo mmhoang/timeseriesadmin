@@ -13,7 +13,7 @@ type QueryFavoritesContext = {
   //setDialogText: (dialogText: string) => void;
   appendFavoritesEntry: (favoritesEntry: HistoryEntry) => HistoryEntry[];
   deleteFavoritesEntry: (favoritesEntry: HistoryEntry) => HistoryEntry[];
-  editFavoritesEntry: (favoritesEntry: HistoryEntry) => HistoryEntry[];
+  editFavoritesEntry: (updatedList: HistoryEntry[]) => HistoryEntry[];
 };
 
 // according to https://kentcdodds.com/blog/how-to-use-react-context-effectively
@@ -66,9 +66,10 @@ export const QueryFavoritesContextProvider: React.FC<Props> = (props: Props) => 
     return updatedQueryFavorites;
   };
 
-  const editFavoritesEntry = (favoritesEntry: HistoryEntry): HistoryEntry[] => {
-
-    return favoritesEntry;
+  const editFavoritesEntry = (updatedList: HistoryEntry[]): HistoryEntry[] => {
+    const newList = updatedList.slice();
+    setQueryFavorites(newList);
+    return newList;
   };
 
   return (

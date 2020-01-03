@@ -64,7 +64,7 @@ type Props = {
 const QueryFavorites = ({ classes }: Props) => {
   const { queryFavorites } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
   const { deleteFavoritesEntry } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
- // const { editFavoritesEntry } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
+  const { editFavoritesEntry } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
   //const { setDialogText } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
   //let { dialogText } = useContext<QueryFavoritesContext>(QueryFavoritesContext);
 
@@ -94,6 +94,7 @@ const handleClose = () => {
 
 const handleUpdate = (updatedQuery: string) => {
     queryFavorites[indexToUpdate].query = updatedQuery;
+    editFavoritesEntry(queryFavorites);
     setOpen(false);
   };
 
